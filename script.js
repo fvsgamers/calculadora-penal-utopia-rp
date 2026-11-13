@@ -43,22 +43,26 @@ const efeitosMapa = {
 
 // ===================== BO AUTOMÁTICO =====================
 const boCounters = {
-  PRF: 1, PMERJ: 1, CHOQUE: 1, BOPE: 1, PCERJ: 1, CORE: 1, EXERCITO: 1
+  PF: 1, PRF: 1, PMU: 1, CHOQUE: 1, BOPE: 1, PC: 1, CORE: 1, EXERCITO: 1, GATE: 1
 };
 const boPrefixo = {
-  PRF: "PRF", PMERJ: "PM", CHOQUE: "CHQ", BOPE: "BOPE", PCERJ: "PC", CORE: "CORE", EXERCITO: "EB"
+  PF:"PF", PRF: "PRF", PMU: "PMU", CHOQUE: "CHQ", BOPE: "BOPE", PC: "PC", CORE: "CORE", EXERCITO: "EB", GATE: "GATE"
 };
 
 function atualizarBO() {
+  if (!guarnicao || !boAuto) return;
   const g = guarnicao.value;
-  boAuto.value = `${boPrefixo[g]}-${boCounters[g].toString().padStart(3, "0")}`;
-  boCounters[g]++;
+  if (boPrefixo[g]) {
+    boAuto.value = `${boPrefixo[g]}-${boCounters[g].toString().padStart(3, "0")}`;
+    boCounters[g]++;
+  }
 }
-guarnicao.addEventListener("change", atualizarBO);
-atualizarBO();
 
-// ===================== BASE COMPLETA DE CRIMES (EDITE AQUI) =====================
-// Preencha 'fianca' com o valor numérico (ex: 30000) ou false para "Não aplicável"
+if (guarnicao) {
+  guarnicao.addEventListener("change", atualizarBO);
+  atualizarBO();
+}
+
 // ===================== BASE COMPLETA DE CRIMES (ORIGINAL + CÓDIGO PENAL LOTUS GROUP) =====================
 const crimeCategorias = [
   {
@@ -174,7 +178,7 @@ const crimeCategorias = [
       { artigo: "Art. 233", nome: "Atentado ao Pudor", meses: 18, multa: 1500, fianca: 750 },
       { artigo: "Art. 73", nome: "Ocultação Facial / Uso de Máscara", meses: 10, multa: 10000, fianca: 20000 },
       { artigo: "Lei 10.826", nome: "Uso de Equipamentos Restritos", meses: 12, multa: 1000, fianca: 500 },
-      { artigo: "Art. 53", nome: "Falsidade Ideológica", meses: 30, multa: 25000, fianca: 50000 },
+            { artigo: "Art. 53", nome: "Falsidade Ideológica", meses: 30, multa: 25000, fianca: 50000 },
       { artigo: "Art. 56", nome: "Exercício Ilegal de Profissão", meses: 30, multa: 25000, fianca: 50000 },
       { artigo: "Art. 60", nome: "Omissão de Socorro", meses: 15, multa: 10000, fianca: 20000 },
       { artigo: "Art. 61", nome: "Perturbação da Ordem", meses: 10, multa: 5000, fianca: 10000 },
@@ -203,7 +207,7 @@ const crimeCategorias = [
     ]
   },
   {
-        titulo: "Crimes de Trânsito",
+    titulo: "Crimes de Trânsito",
     gravidade: "leve",
     icone: "🚦️",
     crimes: [
@@ -223,49 +227,56 @@ const crimeCategorias = [
 ];
 
 // ===================== RENDERIZAÇÃO DOS CRIMES =====================
-crimeCategorias.forEach(cat => {
-  const bloco = document.createElement("div");
-  bloco.className = "crime-bloco";
-  const colCount = getComputedStyle(crimeContainer).gridTemplateColumns.split(" ").length || 3;
-  const index = crimeContainer.children.length;
-  bloco.dataset.coluna = index % colCount;
+if (crimeContainer) {
+  crimeCategorias.forEach(cat => {
+    const bloco = document.createElement("div");
+    bloco.className = "crime-bloco";
+    const colCount = getComputedStyle(crimeContainer).gridTemplateColumns.split(" ").length || 3;
+    const index = crimeContainer.children.length;
+    bloco.dataset.coluna = index % colCount;
 
-  const header = document.createElement("div");
-  header.className = "crime-header";
-  header.innerHTML = `
-    <span class="crime-icon">${cat.icone}</span>
-    <span>${cat.titulo}</span>
-  `;
-  header.dataset.gravidade = cat.gravidade;
-
-  const lista = document.createElement("div");
-  lista.className = "crime-lista hidden";
-
-  cat.crimes.forEach(c => {
-    const item = document.createElement("div");
-    item.className = "crime-item";
-    item.innerHTML = `
-      <strong>${c.artigo}</strong><br>
-      <span class="crime-nome">${c.nome}</span>
+    const header = document.createElement("div");
+    header.className = "crime-header open";
+    header.innerHTML = `
+      <span class="crime-icon">${cat.icone}</span>
+      <span>${cat.titulo}</span>
     `;
+    header.dataset.gravidade = cat.gravidade;
 
-    item.dataset.meses = c.meses;
-    item.dataset.multa = c.multa;
-    item.dataset.fianca = typeof c.fianca === "number" ? c.fianca : "false";
-    item.dataset.nome = c.nome;
-    item.dataset.artigo = c.artigo;
+    const lista = document.createElement("div");
+    lista.className = "crime-lista";
 
-    item.onclick = () => {
-      item.classList.toggle("selected");
+    cat.crimes.forEach(c => {
+      const item = document.createElement("div");
+      item.className = "crime-item";
+      item.innerHTML = `
+        <strong>${c.artigo}</strong><br>
+        <span class="crime-nome">${c.nome}</span>
+      `;
+
+      item.dataset.meses = c.meses;
+      item.dataset.multa = c.multa;
+      item.dataset.fianca = typeof c.fianca === "number" ? c.fianca : "false";
+      item.dataset.nome = c.nome;
+      item.dataset.artigo = c.artigo;
+
+      item.onclick = () => {
+        item.classList.toggle("selected");
+      };
+
+      lista.appendChild(item);
+    });
+
+    header.onclick = () => {
+      header.classList.toggle("open");
+      lista.classList.toggle("hidden");
     };
 
-    lista.appendChild(item);
+    bloco.appendChild(header);
+    bloco.appendChild(lista);
+    crimeContainer.appendChild(bloco);
   });
-
-  bloco.appendChild(header);
-  bloco.appendChild(lista);
-  crimeContainer.appendChild(bloco);
-});
+}
 
 // ===================== NORMALIZAR TEXTO (REMOVE ACENTOS) =====================
 function normalizarTexto(texto) {
@@ -276,39 +287,41 @@ function normalizarTexto(texto) {
 }
 
 // ===================== PESQUISA DE CRIMES =====================
-searchCrime.addEventListener("input", (e) => {
-  const termo = normalizarTexto(e.target.value.trim());
+if (searchCrime) {
+  searchCrime.addEventListener("input", (e) => {
+    const termo = normalizarTexto(e.target.value.trim());
 
-  document.querySelectorAll("#crimeContainer .crime-bloco").forEach(bloco => {
-    const header = bloco.querySelector(".crime-header");
-    const lista = bloco.querySelector(".crime-lista");
-    const itens = bloco.querySelectorAll(".crime-item");
+    document.querySelectorAll("#crimeContainer .crime-bloco").forEach(bloco => {
+      const header = bloco.querySelector(".crime-header");
+      const lista = bloco.querySelector(".crime-lista");
+      const itens = bloco.querySelectorAll(".crime-item");
 
-    let encontrou = false;
+      let encontrou = false;
 
-    itens.forEach(item => {
-      const texto = normalizarTexto(item.textContent);
-      if (texto.includes(termo)) {
-        item.style.display = "block";
-        encontrou = true;
+      itens.forEach(item => {
+        const texto = normalizarTexto(item.textContent);
+        if (texto.includes(termo)) {
+          item.style.display = "block";
+          encontrou = true;
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (termo === "") {
+        header.classList.add("open");
+        lista.classList.remove("hidden");
+        itens.forEach(i => i.style.display = "block");
+      } else if (encontrou) {
+        header.classList.add("open");
+        lista.classList.remove("hidden");
       } else {
-        item.style.display = "none";
+        header.classList.remove("open");
+        lista.classList.add("hidden");
       }
     });
-
-    if (termo === "") {
-      header.classList.remove("open");
-      lista.classList.add("hidden");
-      itens.forEach(i => i.style.display = "block");
-    } else if (encontrou) {
-      header.classList.add("open");
-      lista.classList.remove("hidden");
-    } else {
-      header.classList.remove("open");
-      lista.classList.add("hidden");
-    }
   });
-});
+}
 
 // ===================== ATENUANTES =====================
 const atenuantesBtns = [...document.querySelectorAll("#atenuantesBtns .crime-item")];
@@ -333,6 +346,7 @@ atenuantesBtns.forEach(btn => {
     }
 
     btn.classList.toggle("selected");
+    atualizarCamposLegais();
   };
 });
 
@@ -343,6 +357,7 @@ const respNome = document.getElementById("respNome");
 const respPassaporte = document.getElementById("respPassaporte");
 
 function limparAdvogado() {
+  if (!advogadoNome || !advogadoPassaporte) return;
   advogadoNome.value = "";
   advogadoPassaporte.value = "";
   advogadoNome.disabled = true;
@@ -350,6 +365,7 @@ function limparAdvogado() {
 }
 
 function limparDelegado() {
+  if (!respNome || !respPassaporte) return;
   respNome.value = "";
   respPassaporte.value = "";
   respNome.disabled = true;
@@ -359,24 +375,25 @@ function limparDelegado() {
 function atualizarCamposLegais() {
   const atenuantesSelecionados = getAtenuantes();
 
-  if (atenuantesSelecionados.includes("advogado")) {
-    advogadoNome.disabled = false;
-    advogadoPassaporte.disabled = false;
-  } else {
-    limparAdvogado();
+  if (advogadoNome && advogadoPassaporte) {
+    if (atenuantesSelecionados.includes("advogado")) {
+      advogadoNome.disabled = false;
+      advogadoPassaporte.disabled = false;
+    } else {
+      limparAdvogado();
+    }
   }
 
-  if (atenuantesSelecionados.includes("delegado")) {
-    respNome.disabled = false;
-    respPassaporte.disabled = false;
-  } else {
-    limparDelegado();
+  if (respNome && respPassaporte) {
+    if (atenuantesSelecionados.includes("delegado")) {
+      respNome.disabled = false;
+      respPassaporte.disabled = false;
+    } else {
+      limparDelegado();
+    }
   }
 }
 
-atenuantesBtns.forEach(btn => {
-  btn.addEventListener("click", atualizarCamposLegais);
-});
 atualizarCamposLegais();
 
 // ===================== AGRAVANTES =====================
@@ -392,7 +409,6 @@ function aplicarModificadores(valorBase) {
 
   let percentual = 0;
 
-  // Subtrai as porcentagens dos atenuantes selecionados
   if (atenuantes.includes("advogado"))    percentual -= 0.30; // -30%
   if (atenuantes.includes("reup"))        percentual -= 0.10; // -10%
   if (atenuantes.includes("confesso"))    percentual -= 0.10; // -10%
@@ -400,12 +416,9 @@ function aplicarModificadores(valorBase) {
   if (atenuantes.includes("colaboracao")) percentual -= 0.10; // -10%
   if (atenuantes.includes("porte_legal")) percentual -= 0.10; // -10%
 
-  // Soma +10% para cada agravante selecionado
   percentual += (agravantesQtd * 0.10);
 
-  // Evita valores negativos caso o desconto passe de 100%
   const multiplicadorFinal = Math.max(0, 1 + percentual);
-
   return Math.floor(valorBase * multiplicadorFinal);
 }
 
@@ -424,7 +437,7 @@ function calcularPenalidades() {
     penaBruta += meses;
     multaBruta += multa;
 
-    if (fiancaRaw !== "false") {
+        if (fiancaRaw !== "false") {
       fiancaBruta += Number(fiancaRaw) || 0;
     } else {
       fiancaPermitida = false;
@@ -443,18 +456,21 @@ function calcularPenalidades() {
 }
 
 // ===================== BOTÃO CALCULAR =====================
-calcularBtn.onclick = () => {
-  calcularPenalidades();
-  gerarBoletimConferencia();
-  boletimModal.classList.remove("hidden");
-  alert("✅ Penalidades calculadas.");
-};
+if (calcularBtn) {
+  calcularBtn.onclick = () => {
+    calcularPenalidades();
+    gerarBoletimConferencia();
+    if (boletimModal) boletimModal.classList.remove("hidden");
+    alert("✅ Penalidades calculadas.");
+  };
+}
 
 // ===================== CHECKLIST =====================
 const checklistItens = [...document.querySelectorAll(".check-item")];
-confirmarChecklist.disabled = true;
+if (confirmarChecklist) confirmarChecklist.disabled = true;
 
 function atualizarBotaoChecklist() {
+  if (!confirmarChecklist) return;
   const todosMarcados = checklistItens.every(i => i.classList.contains("done"));
   confirmarChecklist.disabled = !todosMarcados;
 }
@@ -494,43 +510,49 @@ if (sistemaTablet) {
 }
 
 // ===================== RELATÓRIO =====================
-gerarRelatorio.onclick = () => {
-  calcularPenalidades();
-  checklistModal.classList.remove("hidden");
-};
+if (gerarRelatorio) {
+  gerarRelatorio.onclick = () => {
+    calcularPenalidades();
+    if (checklistModal) checklistModal.classList.remove("hidden");
+  };
+}
 
-cancelarChecklist.onclick = () => {
-  checklistModal.classList.add("hidden");
-};
+if (cancelarChecklist) {
+  cancelarChecklist.onclick = () => {
+    if (checklistModal) checklistModal.classList.add("hidden");
+  };
+}
 
-confirmarChecklist.onclick = () => {
-  if (checklistItens.some(i => !i.classList.contains("done"))) {
-    alert("⚠️ Marque todos os itens do checklist antes de confirmar!");
-    return;
-  }
-
-  calcularPenalidades();
-  const atenuantes = getAtenuantes();
-
-  if (atenuantes.includes("advogado")) {
-    if (!advogadoNome.value.trim() || !advogadoPassaporte.value.trim()) {
-      alert("⚠️ Preencha os dados do advogado.");
+if (confirmarChecklist) {
+  confirmarChecklist.onclick = () => {
+    if (checklistItens.some(i => !i.classList.contains("done"))) {
+      alert("⚠️ Marque todos os itens do checklist antes de confirmar!");
       return;
     }
-  }
 
-  if (atenuantes.includes("delegado")) {
-    if (!respNome.value.trim() || !respPassaporte.value.trim()) {
-      alert("⚠️ Preencha os dados do delegado.");
-      return;
+    calcularPenalidades();
+    const atenuantes = getAtenuantes();
+
+    if (atenuantes.includes("advogado")) {
+      if (!advogadoNome?.value.trim() || !advogadoPassaporte?.value.trim()) {
+        alert("⚠️ Preencha os dados do advogado.");
+        return;
+      }
     }
-  }
 
-  navigator.clipboard.writeText(gerarFichaCriminalDiscord())
-    .then(() => alert("📋 Relatório formatado para Discord copiado!"));
+    if (atenuantes.includes("delegado")) {
+      if (!respNome?.value.trim() || !respPassaporte?.value.trim()) {
+        alert("⚠️ Preencha os dados do delegado.");
+        return;
+      }
+    }
 
-  checklistModal.classList.add("hidden");
-};
+    navigator.clipboard.writeText(gerarFichaCriminalDiscord())
+      .then(() => alert("📋 Relatório formatado para Discord copiado!"));
+
+    if (checklistModal) checklistModal.classList.add("hidden");
+  };
+}
 
 // ===================== BOLETIM DE CONFERÊNCIA =====================
 const boletimModal = document.getElementById("boletimModal");
@@ -538,6 +560,7 @@ const boletimConteudo = document.getElementById("boletimConteudo");
 const fecharBoletim = document.getElementById("fecharBoletim");
 
 function gerarBoletimConferencia() {
+  if (!boletimConteudo) return;
   let crimesTexto = "";
   let penaBruta = 0;
   let multaBruta = 0;
@@ -584,9 +607,11 @@ function gerarBoletimConferencia() {
   `;
 }
 
-fecharBoletim.onclick = () => {
-  boletimModal.classList.add("hidden");
-};
+if (fecharBoletim) {
+  fecharBoletim.onclick = () => {
+    if (boletimModal) boletimModal.classList.add("hidden");
+  };
+}
 
 // ===================== FICHA DISCORD =====================
 function gerarFichaCriminalDiscord() {
@@ -608,14 +633,24 @@ function gerarFichaCriminalDiscord() {
 
   if (!crimesTexto) crimesTexto = "_Nenhum crime selecionado._";
 
+  const reuNomeVal = document.getElementById("reuNome")?.value || "";
+  const reuPassaporteVal = document.getElementById("reuPassaporte")?.value || "";
+  const oficialNomeVal = document.getElementById("oficialNome")?.value || "";
+  const oficialPassaporteVal = document.getElementById("oficialPassaporte")?.value || "";
+  const outrosOficiaisVal = document.getElementById("outrosOficiais")?.value || "Não informado";
+  const guarnicaoVal = guarnicao?.value || "";
+  const boAutoVal = boAuto?.value || "";
+  const advogadoVal = advogadoNome?.value || "Não informado";
+  const delegadoVal = respNome?.value || "Não informado";
+
   return `
 📂 **FICHA CRIMINAL**
 
 ━━━━━━━━━━━━━━━━━━
 👤 **DADOS DO RÉU**
 ━━━━━━━━━━━━━━━━━━
-**Nome:** ${reuNome.value}  
-**Passaporte:** ${reuPassaporte.value}  
+**Nome:** ${reuNomeVal}  
+**Passaporte:** ${reuPassaporteVal}  
 
 ━━━━━━━━━━━━━━━━━━
 🚨 **CRIMES COMETIDOS**
@@ -631,20 +666,20 @@ ${crimesTexto}
 ━━━━━━━━━━━━━━━━━━
 👮 **GUARNIÇÃO**
 ━━━━━━━━━━━━━━━━━━
-**Corporação:** ${guarnicao.value}  
-**B.O.:** ${boAuto.value}  
+**Corporação:** ${guarnicaoVal}  
+**B.O.:** ${boAutoVal}  
 
 **Oficial Responsável:**  
-${oficialNome.value} (${oficialPassaporte.value})  
+${oficialNomeVal} (${oficialPassaporteVal})  
 
 **Policiais Envolvidos:**  
-${outrosOficiais.value || "Não informado"}  
+${outrosOficiaisVal}  
 
 ━━━━━━━━━━━━━━━━━━
 ⚖️ **JURÍDICO**
 ━━━━━━━━━━━━━━━━━━
-**Advogado:** ${advogadoNome.value || "Não informado"}  
-**Delegado:** ${respNome.value || "Não informado"}  
+**Advogado:** ${advogadoVal}  
+**Delegado:** ${delegadoVal}  
 
 ━━━━━━━━━━━━━━━━━━
 📝 **RELATÓRIO DA AÇÃO**
@@ -656,56 +691,60 @@ ${outrosOficiais.value || "Não informado"}
 // ===================== RESET APENAS CRIMES =====================
 const resetCrimesBtn = document.getElementById("resetCrimes");
 
-resetCrimesBtn.onclick = () => {
-  document.querySelectorAll("#crimeContainer .crime-item.selected")
-    .forEach(item => item.classList.remove("selected"));
+if (resetCrimesBtn) {
+  resetCrimesBtn.onclick = () => {
+    document.querySelectorAll("#crimeContainer .crime-item.selected")
+      .forEach(item => item.classList.remove("selected"));
 
-  document.querySelectorAll("#crimeContainer .crime-header")
-    .forEach(h => h.classList.remove("open"));
+    document.querySelectorAll("#crimeContainer .crime-header")
+      .forEach(h => h.classList.add("open"));
 
-  document.querySelectorAll("#crimeContainer .crime-lista")
-    .forEach(l => l.classList.add("hidden"));
+    document.querySelectorAll("#crimeContainer .crime-lista")
+      .forEach(l => l.classList.remove("hidden"));
 
-  resultadoFinal = {
-    pena: 0,
-    multa: 0,
-    fianca: ""
+    resultadoFinal = {
+      pena: 0,
+      multa: 0,
+      fianca: ""
+    };
+
+    alert("🔄 Crimes limpos com sucesso.");
   };
-
-  alert("🔄 Crimes limpos com sucesso.");
-};
+}
 
 // ===================== TOOLTIP GLOBAL =====================
 const tooltip = document.getElementById("tooltip");
 
-document.addEventListener("mousemove", (e) => {
-  const crime = e.target.closest("#crimeContainer .crime-item");
-  const efeito = e.target.closest("#atenuantesBtns .crime-item, #agravantesBtns .crime-item");
+if (tooltip) {
+  document.addEventListener("mousemove", (e) => {
+    const crime = e.target.closest("#crimeContainer .crime-item");
+    const efeito = e.target.closest("#atenuantesBtns .crime-item, #agravantesBtns .crime-item");
 
-  if (crime) {
-    const fiancaRaw = crime.dataset.fianca;
-    const textoFianca = fiancaRaw !== "false" ? `R$ ${formatarMoeda(fiancaRaw)}` : "Não aplicável";
+    if (crime) {
+      const fiancaRaw = crime.dataset.fianca;
+      const textoFianca = fiancaRaw !== "false" ? `R$ ${formatarMoeda(fiancaRaw)}` : "Não aplicável";
 
-    tooltip.innerHTML = `
-      ⏳ Pena: <strong>${crime.dataset.meses} Meses</strong> | 
-      💰 Multa: <strong>R$ ${formatarMoeda(crime.dataset.multa)}</strong> | 
-      ⚖️ Fiança: <strong>${textoFianca}</strong>
-    `;
-    tooltip.style.opacity = "1";
-  } else if (efeito) {
-    const valor = efeito.dataset.value;
-    tooltip.innerHTML = `
-      ⚖️ Efeito:<br>
-      <strong>${efeitosMapa[valor] || "Efeito não definido"}</strong>
-    `;
-    tooltip.style.opacity = "1";
-  } else {
-    tooltip.style.opacity = "0";
-  }
+      tooltip.innerHTML = `
+        ⏳ Pena: <strong>${crime.dataset.meses} Meses</strong> | 
+        💰 Multa: <strong>R$ ${formatarMoeda(crime.dataset.multa)}</strong> | 
+        ⚖️ Fiança: <strong>${textoFianca}</strong>
+      `;
+      tooltip.style.opacity = "1";
+    } else if (efeito) {
+      const valor = efeito.dataset.value;
+      tooltip.innerHTML = `
+        ⚖️ Efeito:<br>
+        <strong>${efeitosMapa[valor] || "Efeito não definido"}</strong>
+      `;
+      tooltip.style.opacity = "1";
+    } else {
+      tooltip.style.opacity = "0";
+    }
 
-  tooltip.style.left = e.clientX + 15 + "px";
-  tooltip.style.top = e.clientY + 15 + "px";
-});
+    tooltip.style.left = e.clientX + 15 + "px";
+    tooltip.style.top  = e.clientY + 15 + "px";
+  });
+}
 
 // ===================== ABERTURA DE BLOCOS EXTERNOS =====================
 document.querySelectorAll(

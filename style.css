@@ -3,83 +3,141 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-  background: #0a0a0c;
-  color: #fff;
-  padding: 10px;
+  background: #161819;
+  color: #e5e7eb;
+  padding: 20px 15px;
 }
 
 .bloco, .crime-bloco {
-  background: linear-gradient(145deg, #0f1115, #171a21);
+  background: #111214;
 }
 
-footer{
-	text-align: center;
-	padding: 22px;
+footer {
+  text-align: center;
+  padding: 22px;
+  color: #6b7280;
+  font-size: 13px;
 }
 
 /* ===================== CONTAINER ===================== */
 .container {
-  max-width: 1200px;
+  max-width: 1150px;
   margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 /* ===================== TÍTULO ===================== */
 .titulo-principal {
   text-align: center;
-  color: #2a75f3;
-  text-shadow: 0 0 8px #2a75f3;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.center p, .subtitulo-principal {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 4px;
 }
 
 /* ===================== FLEX ===================== */
 .flex-duplo {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-/* ===================== BLOCOS ===================== */
+.flex-duplo > * {
+  flex: 1;
+  min-width: 140px;
+}
+
+/* ===================== BLOCOS (QUADROS SEPARADOS MINIMALISTAS) ===================== */
 .bloco {
-  background: linear-gradient(145deg, #0f1233, #1a1f36);
-  padding: 15px;
-  border-radius: 10px;
+  background: #111214;
+  border: 1px solid #26292c;
+  padding: 18px;
+  border-radius: 8px;
   flex: 1;
   min-width: 280px;
-  box-shadow: 0 0 15px rgba(42, 117, 243, 0.4);
-  transition: 0.2s;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
 }
 
 .bloco:hover {
-  box-shadow: 0 0 20px #2a75f3;
+  border-color: #3f444a;
+  box-shadow: none;
 }
 
+.bloco h2, .bloco h3 {
+  color: #f3f4f6;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #b91c1c;
+}
+
+
 /* ===================== INPUTS ===================== */
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 5px;
+}
+
 input, select, textarea {
   width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 5px;
-  border: none;
-  background: #222743;
-  color: #fff;
+  padding: 12px 14px;
+  margin: 0 0 8px 0;
+  border-radius: 6px;
+  border: 1px solid #26292c;
+  background: #0e0f10;
+  color: #f3f4f6;
   font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #525860;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #b91c1c;
 }
 
 input:disabled,
 textarea:disabled {
-  background: #33394f;
-  color: #aaa;
+  background: #121315;
+  color: #4b5563;
+  border-color: #1f2225;
 }
 
 textarea {
   resize: none;
-  height: 60px;
+  height: 65px;
 }
 
 select[multiple] {
@@ -88,25 +146,38 @@ select[multiple] {
 
 /* ===================== BOTÕES ===================== */
 .hud-btn {
-  background: linear-gradient(145deg, #2a75f3, #1b4fcc);
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  padding: 10px;
+  background: #1f2225;
+  color: #f3f4f6;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border: 1px solid #32363a;
+  border-radius: 6px;
+  padding: 11px 18px;
   cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 10px #2a75f3;
+  transition: 0.2s ease;
+  box-shadow: none;
 }
 
 .hud-btn:hover {
-  box-shadow: 0 0 20px #1b4fcc;
-  transform: translateY(-2px);
+  background: #b91c1c;
+  border-color: #dc2626;
+  color: #ffffff;
+  box-shadow: none;
+  transform: translateY(-1px);
 }
 
 .hud-btn.danger {
-  background: linear-gradient(145deg,#7f1d1d,#450a0a);
-  box-shadow: 0 0 10px #b52a2a;
+  background: #2a1215;
+  border-color: #7f1d1d;
+  color: #fca5a5;
+  box-shadow: none;
+}
+
+.hud-btn.danger:hover {
+  background: #991b1b;
+  color: #ffffff;
 }
 
 /* ===================== CRIMES ===================== */
@@ -119,32 +190,38 @@ select[multiple] {
 
 /* CARD DA CATEGORIA */
 .crime-bloco {
-  height: 360px;              /* altura fixa do card */
+  height: 360px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 14px;
+  background: #111214;
+  border: 1px solid #26292c;
+  border-radius: 8px;
   padding: 14px;
-  overflow: hidden;           /* CRÍTICO */
+  overflow: hidden;
 }
 
 /* CABEÇALHO */
 .crime-header {
   cursor: pointer;
-  padding: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
   text-align: center;
-  border-radius: 10px;
-  background: linear-gradient(145deg,#1e3a8a,#1e40af);
+  border-radius: 6px;
+  background: #1c1e21;
+  border-bottom: 2px solid #b91c1c;
+  color: #f3f4f6;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-
 .crime-header::after {
   content: "▼";
-  font-size: 12px;
+  font-size: 11px;
+  color: #9ca3af;
 }
 
 .crime-header.open::after {
@@ -152,97 +229,82 @@ select[multiple] {
 }
 
 .crime-header:hover {
-  box-shadow: 0 0 14px rgba(42,117,243,.7);
-  filter: brightness(1.08);
+  background: #25282c;
+  box-shadow: none;
+  filter: none;
 }
-
-
-/* ===================== ESTILIZAÇÃO ========================= */
-.crime-item {
-  width: 100%;
-  text-align: center;
-
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 10px;
-
-  padding: 10px;
-  margin-bottom: 8px;
-
-  cursor: pointer;
-  transition: .2s ease;
-}
-
-.crime-item:hover {
-  background: rgba(255,255,255,.1);
-  transform: scale(1.02);
-}
-
-
-/* ===================== LISTA DE CRIMES ===================== */
-
-/* FECHADA */
-.crime-lista {
-  margin-top: 12px;
-  flex: 1;                    /* 🔴 OCUPA O RESTO DO CARD */
-  overflow-y: auto;           /* 🔴 SCROLL AQUI */
-  scroll-behavior: smooth;
-}
-
-
-/* ===================== SCROLL VISIVEL ===================== */
-
-.crime-lista::-webkit-scrollbar {
-  width: 8px;
-}
-
-.crime-lista::-webkit-scrollbar-thumb {
-  background: rgba(42,117,243,0.6);
-  border-radius: 6px;
-}
-
 
 /* ===================== ITENS ===================== */
 .crime-item {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 10px;
-  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: #16181a;
+  border: 1px solid #26292c;
+  border-radius: 6px;
+  padding: 10px 12px;
   margin-bottom: 8px;
   cursor: pointer;
-  text-align: center;
+  font-size: 13px;
+  color: #d1d5db;
+  transition: 0.15s ease;
+}
+
+.crime-item strong {
+  color: #ffffff;
+}
+
+.crime-item:hover {
+  background: #1f2226;
+  border-color: #4b5563;
+  transform: none;
 }
 
 .crime-item.selected {
-  background: linear-gradient(135deg,#2e7d32,#1b5e20);
+  background: #142e1f;
+  border-color: #16a34a;
+  color: #ffffff;
 }
 
-/* SCROLL BONITO */
+/* ===================== LISTA DE CRIMES ===================== */
+.crime-lista {
+  margin-top: 12px;
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.crime-lista.hidden {
+  display: none !important;
+}
+
 .crime-lista::-webkit-scrollbar {
   width: 6px;
 }
 
 .crime-lista::-webkit-scrollbar-thumb {
-  background: rgba(42,117,243,.6);
-  border-radius: 6px;
+  background: #32363a;
+  border-radius: 4px;
 }
 
-/* Mantém cor estável — sem pulo */
 .crime-lista::-webkit-scrollbar-thumb:hover {
-  background: rgba(42,117,243,0.6);
+  background: #b91c1c;
 }
 
 /* ===================== BOLETIM ===================== */
 .boletim-lista {
+  background: #0e0f10;
+  border: 1px solid #26292c;
+  border-radius: 6px;
   margin: 10px 0;
-  padding-left: 10px;
+  padding: 12px;
   line-height: 1.6;
+  font-size: 13px;
 }
 
 .boletim-final {
-  background: linear-gradient(145deg,#0f172a,#020617);
-  border: 2px solid #22c55e;
-  border-radius: 14px;
+  background: #111214;
+  border: 1px solid #16a34a;
+  border-radius: 8px;
   padding: 14px;
   margin-top: 10px;
 }
@@ -253,9 +315,9 @@ select[multiple] {
 }
 
 .boletim-destaque {
-  background: linear-gradient(145deg,#0f172a,#020617);
-  border: 2px solid #22c55e;
-  border-radius: 14px;
+  background: #111214;
+  border: 1px solid #b91c1c;
+  border-radius: 8px;
   padding: 12px;
 }
 
@@ -265,77 +327,81 @@ select[multiple] {
 
 .boletim-bloco h4 {
   margin-bottom: 6px;
-  color: #2a75f3;
+  color: #e5e7eb;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.boletim-bloco ul {
+  list-style: none;
+  background: #0e0f10;
+  border: 1px solid #26292c;
+  border-radius: 6px;
+  padding: 12px;
 }
 
 /* ===================== ATENUANTES / AGRAVANTES ===================== */
 #agravantesBtns .crime-item.selected {
-  background: linear-gradient(145deg,#dc2626,#991b1b);
+  background: #2f1517;
+  border-color: #dc2626;
 }
 
 #atenuantesBtns .crime-item.selected {
-  background: linear-gradient(145deg,#16a34a,#065f46);
+  background: #142e1f;
+  border-color: #16a34a;
 }
-
-/* ===================== AGRAVANTES / ATENUANTES ===================== */
 
 .crime-bloco.seletor {
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 14px;
-  background: rgba(15,15,25,.6);
-  border: 1px solid rgba(255,255,255,.15);
+  background: #111214;
+  border: 1px solid #26292c;
 }
 
-/* Lista fechada */
 .crime-bloco.seletor .crime-lista {
   max-height: 0;
   overflow-y: auto;
   opacity: 0;
   margin-top: 10px;
-  transition:
-    max-height 0.3s ease,
-    opacity 0.2s ease;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
 }
 
-/* Lista aberta */
 .crime-bloco.seletor .crime-header.open + .crime-lista {
-  max-height: 260px;     /* scroll se passar */
+  max-height: 260px;
   opacity: 1;
 }
 
-/* Visual do header */
 .crime-header.agravante {
-  background: linear-gradient(135deg,#8b0000,#c62828);
+  background: #1c1e21;
+  border-bottom: 2px solid #b91c1c;
 }
 
 .crime-header.atenuante {
-  background: linear-gradient(135deg,#1b5e20,#2e7d32);
+  background: #1c1e21;
+  border-bottom: 2px solid #16a34a;
 }
 
 /* ===================== GRID AGRAVANTES / ATENUANTES ===================== */
-
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
-/* cards não esticam */
 .grid-2 .crime-bloco {
   height: fit-content;
 }
 
-/* Mobile */
 @media (max-width: 900px) {
   .grid-2 {
     grid-template-columns: 1fr;
   }
 }
-
 
 /* ===================== MODAL ===================== */
 .modal {
@@ -344,7 +410,7 @@ select[multiple] {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,18 +422,24 @@ select[multiple] {
 }
 
 .modal-content {
-  background: linear-gradient(145deg,#0f1233,#1a1f36);
-  padding: 20px;
-  border-radius: 12px;
+  background: #161819;
+  border: 1px solid #2c3035;
+  padding: 22px;
+  border-radius: 8px;
   max-width: 650px;
   width: 95%;
-  box-shadow: 0 0 25px #2a75f3;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
 }
 
 .modal-content h2 {
-  color: #2a75f3;
-  text-align: center;
-  margin-bottom: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #b91c1c;
+  padding-bottom: 10px;
+  text-align: left;
+  margin-bottom: 14px;
 }
 
 .checklist {
@@ -380,8 +452,9 @@ select[multiple] {
 }
 
 .checklist label {
-  background: #222743;
-  padding: 8px;
+  background: #0e0f10;
+  border: 1px solid #26292c;
+  padding: 10px;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -393,11 +466,12 @@ select[multiple] {
 .check-item {
   position: relative;
   padding: 12px 14px 12px 40px;
-  background: #222743;
-  border-radius: 8px;
+  background: #0e0f10;
+  border: 1px solid #26292c;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.25s ease;
-  font-size: 14px;
+  transition: 0.2s ease;
+  font-size: 13px;
 }
 
 .check-item::before {
@@ -406,12 +480,13 @@ select[multiple] {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .check-item.done {
-  background: linear-gradient(145deg,#1f6feb,#143d85);
-  box-shadow: 0 0 12px rgba(31,111,235,0.6);
+  background: #142e1f;
+  border-color: #16a34a;
+  box-shadow: none;
 }
 
 .check-item.done::before {
@@ -421,21 +496,20 @@ select[multiple] {
 /* ===================== TOOLTIP ===================== */
 .tooltip {
   position: fixed;
-  background: linear-gradient(145deg, #0f1233, #1a1f36);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 10px;
+  background: #0e0f10;
+  border: 1px solid #b91c1c;
+  border-radius: 6px;
   padding: 10px 12px;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.4;
-  color: #fff;
-  box-shadow: 0 0 15px rgba(42,117,243,0.6);
+  color: #f3f4f6;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
   white-space: nowrap;
 }
-
 
 /* ===================== RESPONSIVO ===================== */
 @media (max-width: 1100px) {
@@ -452,191 +526,147 @@ select[multiple] {
 
 @media (max-width: 900px) {
   .flex-duplo {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
 
 .actions {
   display: flex;
-  justify-content: center; /* centraliza horizontalmente */
-  gap: 16px;
-  margin: 30px 0;
-  flex-wrap: wrap; /* caso caibam em mais de uma linha */
+  justify-content: center;
+  gap: 14px;
+  margin: 25px 0;
+  flex-wrap: wrap;
 }
 
 .actions button {
-  padding: 10px 24px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(145deg, #2a75f3, #1d4ed8);
-  color: #fff;
-  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 6px;
+  border: 1px solid #32363a;
+  background: #1f2225;
+  color: #f3f4f6;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
 .actions button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(42,117,243,.6);
+  background: #b91c1c;
+  border-color: #dc2626;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: none;
 }
 
 .actions button:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
-/* ===== GRID TOPO ===== */
+/* ===== GRID TOPO (2 COLUNAS LADO A LADO) ===== */
 .grid-topo {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  align-items: stretch; /* 🔴 garante o alinhamento final */
+  gap: 18px;
+  align-items: stretch;
 }
 
 .coluna {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
-/* Dados do réu menor */
 .reu-bloco {
-  padding-bottom: 10px;
+  padding-bottom: 14px;
 }
 
-/* Responsivo */
 @media (max-width: 900px) {
   .grid-topo {
     grid-template-columns: 1fr;
   }
 }
 
-.center {
-	text-align: center;
-}
-
 /* =========================================================
-   CORES POR GRAVIDADE — USANDO OS VALORES REAIS DO JS
+CORES POR GRAVIDADE (BORDA INFERIOR DISCRETA)
 ========================================================= */
-
-/* BAIXA */
 .crime-header[data-gravidade="baixa"] {
-  background: linear-gradient(145deg, #2563eb, #1e40af) !important;
+background: #1c1e21 !important;
+border-bottom: 2px solid #2563eb !important;
 }
-
-/* MÉDIA */
 .crime-header[data-gravidade="media"] {
-  background: linear-gradient(145deg, #ca8a04, #854d0e) !important;
+background: #1c1e21 !important;
+border-bottom: 2px solid #ca8a04 !important;
 }
-
-/* ALTA */
 .crime-header[data-gravidade="alta"] {
-  background: linear-gradient(145deg, #b91c1c, #7f1d1d) !important;
+background: #1c1e21 !important;
+border-bottom: 2px solid #dc2626 !important;
 }
-
-/* ALTÍSSIMA */
 .crime-header[data-gravidade="altissima"] {
-  background: linear-gradient(145deg, #7f1d1d, #450a0a) !important;
-  box-shadow: 0 0 14px rgba(220, 38, 38, 0.8);
+background: #1c1e21 !important;
+border-bottom: 2px solid #991b1b !important;
+box-shadow: none;
 }
-
-
-/* =========================================================
-   AGRAVANTES & ATENUANTES — LADO A LADO (GRID-2)
-========================================================= */
-
 .crime-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 18px;
 }
-
-/*--------------------------*/
 .crime-bloco.col-hidden {
-  visibility: hidden;
-  pointer-events: none;
-  height: 0;
-  padding: 0;
-  margin: 0;
-  border: none;
+visibility: hidden;
+pointer-events: none;
+height: 0;
+padding: 0;
+margin: 0;
+border: none;
 }
-
-/* =========================================================
-   CONTROLE DE COLUNA — ESCONDER CATEGORIAS DA MESMA COLUNA
-========================================================= */
-
 .hidden-coluna {
-  opacity: 0;
-  pointer-events: none;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+opacity: 0;
+pointer-events: none;
+height: 0;
+margin: 0;
+padding: 0;
+overflow: hidden;
 }
-
-/* =========================================================
-   CONTROLE REAL DE TOPO POR COLUNA (GRID)
-========================================================= */
-
-/* categoria ativa sobe para o topo da coluna */
 .crime-bloco.ativo {
-  grid-row: 1;
-  z-index: 10;
+grid-row: 1;
+z-index: 10;
 }
-
-/* categorias inativas da mesma coluna */
 .crime-bloco.coluna-hidden {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
+opacity: 0;
+pointer-events: none;
+visibility: hidden;
 }
-
-/* =========================================================
-   CATEGORIAS DE CRIMES — SEMPRE VISÍVEIS COM SCROLL
-========================================================= */
-/* ===================== LISTA DE CRIMES (CORRIGIDA) ===================== */
-
+/* ===================== LISTA DE CRIMES (ESTABILIDADE) ===================== */
 #crimeContainer .crime-bloco {
-  height: 360px;               /* altura fixa do card */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;            /* impede esticar */
+height: 360px;
+display: flex;
+flex-direction: column;
+overflow: hidden;
 }
-
 #crimeContainer .crime-header {
-  flex-shrink: 0;              /* nunca encolhe */
+flex-shrink: 0;
 }
-
 #crimeContainer .crime-lista {
-  flex: 1;
-  margin-top: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  /* força estabilidade do layout */
-  scrollbar-gutter: stable;
-
-  /* remove qualquer animação que cause reflow */
-  transition: none;
-
-  opacity: 1;
+flex: 1;
+margin-top: 10px;
+overflow-y: auto;
+overflow-x: hidden;
+scrollbar-gutter: stable;
+transition: none;
+opacity: 1;
 }
-
-
-/* Scroll visual */
 #crimeContainer .crime-lista::-webkit-scrollbar {
-  width: 8px;
+width: 6px;
 }
-
 #crimeContainer .crime-lista::-webkit-scrollbar-track {
-  background: transparent;
+background: #0e0f10;
 }
-
 #crimeContainer .crime-lista::-webkit-scrollbar-thumb {
-  background: rgba(42,117,243,0.5);
-  border-radius: 6px;
+background: #32363a;
+border-radius: 4px;
 }
-
-/* 🚫 NADA DE HOVER NO SCROLL */
 #crimeContainer .crime-lista::-webkit-scrollbar-thumb:hover {
-  background: rgba(42,117,243,0.5);
+background: #b91c1c;
 }
